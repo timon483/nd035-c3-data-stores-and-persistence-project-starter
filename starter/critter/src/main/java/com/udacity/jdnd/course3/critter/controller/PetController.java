@@ -1,7 +1,8 @@
-package com.udacity.jdnd.course3.critter.pet;
+package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.data.Customer;
 import com.udacity.jdnd.course3.critter.data.Pet;
+import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -34,7 +35,7 @@ public class PetController {
         userService.getCustomer(petDTO.getOwnerId()).getPets().add(pet);
         Long id = petService.savePet(pet);
         petDTO.setId(id);
-        return petDTO;
+        return convertPetToPetDTO(pet);
 
     }
 

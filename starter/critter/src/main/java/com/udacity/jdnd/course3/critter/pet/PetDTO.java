@@ -16,7 +16,6 @@ public class PetDTO {
     private LocalDate birthDate;
     private String notes;
 
-
     public PetType getType() {
         return type;
     }
