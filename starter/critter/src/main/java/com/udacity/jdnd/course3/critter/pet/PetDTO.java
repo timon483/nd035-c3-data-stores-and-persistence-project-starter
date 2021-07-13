@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.data.Pet;
+
 import java.time.LocalDate;
 
 /**
@@ -13,6 +15,7 @@ public class PetDTO {
     private long ownerId;
     private LocalDate birthDate;
     private String notes;
+
 
     public PetType getType() {
         return type;

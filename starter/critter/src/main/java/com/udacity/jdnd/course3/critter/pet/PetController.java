@@ -1,7 +1,14 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.data.Customer;
+import com.udacity.jdnd.course3.critter.data.Pet;
+import com.udacity.jdnd.course3.critter.service.PetService;
+import com.udacity.jdnd.course3.critter.service.UserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,23 +18,75 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
+    @Autowired
+    PetService petService;
+
+    @Autowired
+    UserService userService;
+
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
+        Pet pet = new Pet();
+        pet.setName(petDTO.getName());
+        pet.setBirthDate(petDTO.getBirthDate());
+        pet.setType(petDTO.getType());
+        pet.setOwner(userService.getCustomer(petDTO.getOwnerId()));
+        userService.getCustomer(petDTO.getOwnerId()).getPets().add(pet);
+        Long id = petService.savePet(pet);
+        petDTO.setId(id);
+        return petDTO;
+
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+        Pet pet = petService.getPet(petId);
+        return convertPetToPetDTO(pet);
     }
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        List<Pet> allPets = petService.getAllPets();
+        List<PetDTO> allPetsDTO = new ArrayList<>();
+
+        if (!allPets.isEmpty()){
+            for (Pet p : allPets){
+                allPetsDTO.add(convertPetToPetDTO(p));
+            }
+        }
+        return allPetsDTO;
+
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+        List<PetDTO> petDTOS = new ArrayList<>();
+        List<Pet> pets = petService.getPetsByOwner(userService.getCustomer(ownerId));
+
+        if (pets != null) {
+            for (Pet p : pets) {
+                petDTOS.add(convertPetToPetDTO(p));
+            }
+        }
+        return petDTOS;
     }
+
+
+    public PetDTO convertPetToPetDTO(Pet pet){
+        PetDTO petDTO = new PetDTO();
+        BeanUtils.copyProperties(pet, petDTO, "pet_id, owner");
+        petDTO.setId(pet.getPet_id());
+        if (pet.getOwner()!= null){
+            petDTO.setOwnerId(pet.getOwner().getUser_id());
+        }
+        return petDTO;
+    }
+
+    public Pet convertPetDTOToPet(PetDTO petDTO){
+
+        return null;
+
+    }
+
+
 }

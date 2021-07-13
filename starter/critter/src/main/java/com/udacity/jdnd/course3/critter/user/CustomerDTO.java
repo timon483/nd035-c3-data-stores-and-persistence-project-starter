@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.data.Customer;
+
 import java.util.List;
 
 /**

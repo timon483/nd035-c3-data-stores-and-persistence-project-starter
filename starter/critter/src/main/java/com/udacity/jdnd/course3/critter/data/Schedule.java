@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,10 +15,10 @@ public class Schedule {
     private Long schedule_id;
 
     @ManyToMany
-    private List<Pet> pets;
+    private List<Pet> pets = new ArrayList<>();
 
     @ManyToMany
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     private LocalDate date;
 
