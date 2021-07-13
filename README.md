@@ -50,7 +50,7 @@ Tests will pass under the following conditions:
 
 * `testCreateCustomer` - **UserController.saveCustomer** returns a saved customer matching the request
 * `testCreateEmployee` - **UserController.saveEmployee** returns a saved employee matching the request
-* `testAddPetsToCustomer` - **PetController.getPetsByOwner** returns a saved pet with the same id and name as the one saved with **UserController.savePet** for a given owner
+* `testAddPetsToCustomer` - **PetController.getPetsByOwner** returns a saved pet with the same schedule_id and name as the one saved with **UserController.savePet** for a given owner
 * `testFindPetsByOwner` - **PetController.getPetsByOwner** returns all pets saved for that owner.
 * `testFindOwnerByPet` - **UserController.getOwnerByPet** returns the saved owner used to create the pet.
 * `testChangeEmployeeAvailability` - **UserController.getEmployee** returns an employee with the same availability as set for that employee by **UserControler.setAvailability**
