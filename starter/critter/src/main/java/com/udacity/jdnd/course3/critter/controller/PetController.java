@@ -31,8 +31,10 @@ public class PetController {
         pet.setName(petDTO.getName());
         pet.setBirthDate(petDTO.getBirthDate());
         pet.setType(petDTO.getType());
-        pet.setOwner(userService.getCustomer(petDTO.getOwnerId()));
-        userService.getCustomer(petDTO.getOwnerId()).getPets().add(pet);
+        if (petDTO.getOwnerId() > 0) {
+            pet.setOwner(userService.getCustomer(petDTO.getOwnerId()));
+            userService.getCustomer(petDTO.getOwnerId()).getPets().add(pet);
+        }
         Long id = petService.savePet(pet);
         petDTO.setId(id);
         return convertPetToPetDTO(pet);
