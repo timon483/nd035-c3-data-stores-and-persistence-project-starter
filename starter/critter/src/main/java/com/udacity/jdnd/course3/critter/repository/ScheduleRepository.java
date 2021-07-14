@@ -7,6 +7,7 @@ import com.udacity.jdnd.course3.critter.data.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.yaml.snakeyaml.events.ScalarEvent;
 
 import java.util.List;
 
@@ -17,8 +18,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> getSchedulesByEmployees(Employee employee);
 
-    @Query("select s from Schedule s join Pet p where p.owner = :customer ")
-    List<Schedule> getSchedulesByCustomers(Customer customer);
+
 
 
 }

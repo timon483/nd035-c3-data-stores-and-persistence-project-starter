@@ -21,20 +21,44 @@ import java.util.List;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    @Autowired
     ScheduleService scheduleService;
 
-    @Autowired
     PetService petService;
 
-    @Autowired
     UserService userService;
+
+    ScheduleController(ScheduleService scheduleService, PetService petService, UserService userService){
+        this.scheduleService = scheduleService;
+        this.petService = petService;
+        this.userService = userService;
+    }
 
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
 
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
+        List<Long> petIds = scheduleDTO.getPetIds();
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+        List<Pet> pets = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+
+        if (petIds != null){
+            for (Long petId : petIds){
+                pets.add(petService.getPet(petId));
+            }
+        }
+
+        schedule.setPets(pets);
+
+        if (employeeIds != null){
+            for (Long employeeId : employeeIds){
+                employees.add(userService.getEmployee(employeeId));
+            }
+        }
+
+        schedule.setEmployees(employees);
+
         Long id = scheduleService.saveSchedule(schedule);
         scheduleDTO.setId(id);
         return scheduleDTO;
@@ -90,6 +114,8 @@ public class ScheduleController {
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
+
+
         List<Schedule> schedules = scheduleService.getSchedulesByCustomer(userService.getCustomer(customerId));
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
 
